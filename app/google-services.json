@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "126504552996",
+    "project_id": "mpr01-topic2",
+    "storage_bucket": "mpr01-topic2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126504552996:android:49ad7e841bfb6ab5eea6b1",
+        "android_client_info": {
+          "package_name": "edu.hanu.tictactoewithfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126504552996-jsq1mp97fpf72606kvg5vvs6i7e4hf9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByYKInplNGXJ1x0uACtuiyfYFQ9BrZy8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126504552996-jsq1mp97fpf72606kvg5vvs6i7e4hf9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
