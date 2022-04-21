@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
     tools:context=".MainActivity">
 
     <TextView
@@ -36,6 +39,25 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <Spinner
+        android:id="@+id/spDifficult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAIText"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/tvGoFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
@@ -48,4 +70,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/readButton" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
