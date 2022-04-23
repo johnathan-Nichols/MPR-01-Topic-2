@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">TicTacToeWithFirebase</string>
+    <string name="game_name">Tic Tac Toe</string>
+    <string name="login">Login</string>
+    <string name="forgot">Forget password?</string>
+    <string name="register">Register</string>
+
+    <string name="mail">Mail</string>
+    <string name="pass">Password</string>
+    <string name="confirm">Confirm Password</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="random">Join Random Room</string>
+    <string name="c"> Join By Code</string>
+    <string name="auto">Play With Bot</string>
+    <string name="create">Create Room</string>
 </resources>
