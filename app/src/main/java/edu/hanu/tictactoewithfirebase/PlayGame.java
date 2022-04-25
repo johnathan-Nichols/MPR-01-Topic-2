@@ -1,18 +1,13 @@
 package edu.hanu.tictactoewithfirebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,12 +18,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-public class PlayGame extends AppCompatActivity {
-    private static final String TAG = "PlayGame";
+import edu.hanu.tictactoewithfirebase.database.GameObject;
 
-    private int[] boardMarks = new int[9];
+public class PlayGame extends AppCompatActivity {
+    GameObject mGameObject;
+
+    String email=null;
+    DatabaseReference myRef;
+
+    private final int[] boardMarks = new int[9];
 
     //use this for now
     private boolean isO;
@@ -68,17 +69,8 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_screen);
 
-        //just loaded
-        if(savedInstanceState == null){
-            Bundle extras = getIntent().getExtras();
-
-            //we set values
-            if(extras != null){
-                usesAI = extras.getInt("USES_AI", 1)==1;
-                aiIsX = extras.getInt("AI_IS_X", 1)==1;
-                aiDifficultyLevel=extras.getInt("GAME_DIFF", 0);
-            }
-        }
+        //Go Back
+        findViewById(R.id.btnOut).setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
 
         //initialize openLocations
         for (int i = 0; i < 9; i++) {
@@ -91,10 +83,72 @@ public class PlayGame extends AppCompatActivity {
             boardImages[i].setOnClickListener(view -> ClickedLocation((int) view.getTag()));
         }
 
-        if (aiIsX && usesAI) ChooseAIMove();
+        //just loaded
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
 
-        //Go Back
-        findViewById(R.id.btnOut).setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
+            //we set values
+            if(extras != null){
+                mGameObject = (GameObject) extras.getSerializable(MainActivity.GAME_OBJECT);
+                if(mGameObject!=null){
+                    //online game
+                    email = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
+                    myRef = FirebaseDatabase.getInstance("https://mpr01-topic2-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("games").child(mGameObject.roomId);
+
+                    myRef.child("isSeekingPlayers").setValue(false);
+
+                    myRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            mGameObject = snapshot.getValue(GameObject.class);
+
+                            for(int i = 0; i< Objects.requireNonNull(mGameObject).movesList.size(); i++){
+                                int move =mGameObject.movesList.get(i);
+                                if(move>0){
+
+                                    boardMarks[i] = move;
+
+                                    boardImages[i].setImageResource(move==2?R.drawable.ic_o:R.drawable.ic_x);
+
+                                    openLocations.remove(openLocations.indexOf(i));
+
+                                    turn++;
+
+                                    CheckVictory();
+
+                                    if(openLocations.size()==0) {
+                                        gameActive = false;
+                                        new AlertDialog.Builder(getBaseContext())
+                                                .setIcon(R.drawable.ic_return)
+                                                .setTitle("The game is tied.")
+                                                .setMessage("Would you like to return to the home page?")
+                                                .setPositiveButton("Yes", (dialogInterface, i1) -> startActivity(new Intent(getBaseContext(), MainActivity.class)))
+                                                .setNegativeButton("No", null)
+                                                .show();
+                                        return;
+                                    }
+                                }
+                            }
+
+                            isO = !mGameObject.isXTurn;
+                            gameActive = mGameObject.isActive;
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else {
+                    //local game
+                    usesAI = extras.getInt("USES_AI", 1)==1;
+                    aiIsX = extras.getInt("AI_IS_X", 1)==1;
+                    aiDifficultyLevel=extras.getInt("GAME_DIFF", 0);
+                }
+            }
+        }
+
+        if (mGameObject==null && aiIsX && usesAI) ChooseAIMove();
     }
 
     /**
@@ -151,6 +205,7 @@ public class PlayGame extends AppCompatActivity {
         }
     }
 
+    //#region AI Methods
     public boolean CheckItemVictory(int a, int b, int c) {
         return a > 0 && a == b && a == c;
     }
@@ -267,20 +322,16 @@ public class PlayGame extends AppCompatActivity {
                 //find which side was played on
                 if (boardMarks[1] > 0) {
                     //random play from {0, 2}, {3, 5}, {6, 8}
-                    int choice = choicesA[(int) (Math.random() * choicesA.length)];
-                    return choice;
+                    return choicesA[(int) (Math.random() * choicesA.length)];
                 } else if (boardMarks[3] > 0) {
                     //random play from {0, 6}, {1, 7}, {2, 8}
-                    int choice = choicesB[(int) (Math.random() * choicesB.length)];
-                    return choice;
+                    return choicesB[(int) (Math.random() * choicesB.length)];
                 } else if (boardMarks[5] > 0) {
                     //random play from {0, 6}, {1, 7}, {2, 8}
-                    int choice = choicesB[(int) (Math.random() * choicesB.length)];
-                    return choice;
+                    return choicesB[(int) (Math.random() * choicesB.length)];
                 } else if (boardMarks[7] > 0) {
                     //random play from {0, 2}, {3, 5}, {6, 8}
-                    int choice = choicesA[(int) (Math.random() * choicesA.length)];
-                    return choice;
+                    return choicesA[(int) (Math.random() * choicesA.length)];
                 }
 
                 //something went wrong
@@ -327,13 +378,11 @@ public class PlayGame extends AppCompatActivity {
                     //x placed across from us
                     switch (oFirstTurn) {
                         case 0:
-                            return cornerA;
-                        case 2:
-                            return cornerB;
-                        case 6:
-                            return cornerB;
                         case 8:
                             return cornerA;
+                        case 2:
+                        case 6:
+                            return cornerB;
                     }
                 }
 
@@ -400,12 +449,6 @@ public class PlayGame extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /**
-         * grabs a random available option
-         */
-
-
     }
 
     /**
@@ -509,11 +552,10 @@ public class PlayGame extends AppCompatActivity {
 
         return (!(middle > 0 || (a0 > 0 && a1 > 0) || (b0 > 0 && b1 > 0))) && ((a0 > 0 || a1 > 0) && (b0 > 0 || b1 > 0));
     }
+    //#endregion AI Methods
 
     private void PlaceMark(int location) throws Exception {
         if (location < 0 || location > 8) throw new Exception("Location is invalid.");
-
-        Toast.makeText(this, "Placing at "+location, Toast.LENGTH_SHORT).show();
 
         //verify location
         if (boardMarks[location] > 0) {
@@ -546,6 +588,19 @@ public class PlayGame extends AppCompatActivity {
         }
 
         turn++;
+
+        if(myRef!=null){
+            mGameObject.movesList.clear();
+            for(int i : boardMarks){
+                mGameObject.movesList.add(i);
+            }
+
+            mGameObject.isXTurn = !isO;
+
+            mGameObject.isActive=gameActive;
+
+            myRef.setValue(mGameObject);
+        }
     }
 
 

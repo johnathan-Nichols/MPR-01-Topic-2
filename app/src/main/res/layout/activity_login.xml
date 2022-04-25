@@ -56,7 +56,6 @@
         android:background="@drawable/text_bg"
         android:backgroundTint="#C4C4C4"
         android:drawableLeft="@drawable/ic_password"
-        android:drawableRight="@drawable/ic_hidden"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColorHint="@color/white"

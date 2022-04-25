@@ -2,6 +2,7 @@ package edu.hanu.tictactoewithfirebase.database;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,7 +21,9 @@ import java.util.Objects;
  *  game instead of creating a new game.
  *
  * */
-public class GameObject {
+public class GameObject implements Serializable {
+    public String roomId;
+
     //the date that this was created
     public Date creationDate;
 
@@ -40,6 +43,8 @@ public class GameObject {
 
     //used to decide who's turn it is
     public boolean isXTurn;
+
+    public  GameObject(){}
 
     public GameObject(Date creationDate, String playerXEmail, String playerOEmail, boolean isSeekingPlayers, int[] movesList, boolean isActive, boolean isXTurn) {
         this.creationDate = creationDate;
@@ -73,5 +78,19 @@ public class GameObject {
         this.isSeekingPlayers = isSeekingPlayers;
         this.isActive = true;
         this.isXTurn = true;
+    }
+
+    @Override
+    public String toString() {
+        return "GameObject{" +
+                "roomId='" + roomId + '\'' +
+                ", creationDate=" + creationDate +
+                ", playerXEmail='" + playerXEmail + '\'' +
+                ", playerOEmail='" + playerOEmail + '\'' +
+                ", isSeekingPlayers=" + isSeekingPlayers +
+                ", movesList=" + movesList +
+                ", isActive=" + isActive +
+                ", isXTurn=" + isXTurn +
+                '}';
     }
 }

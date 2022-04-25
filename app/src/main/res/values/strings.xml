@@ -12,7 +12,7 @@
     <string name="welcome">Welcome</string>
     <string name="random">Join Random Room</string>
     <string name="c"> Join By Code</string>
-    <string name="auto">Play With Bot</string>
+    <string name="auto">Play Locally</string>
     <string name="create">Create Room</string>
     <string name="click_to_login">Login</string>
     <string name="invite_other_players">Invite other players</string>
