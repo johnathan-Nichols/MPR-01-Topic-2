@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_pink">
+
+    <TextView
+        android:id="@+id/tvRoomCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#607D8B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Room Code" />
+
+    <TextView
+        android:id="@+id/tvTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#607D8B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRoomCode"
+        tools:text="Turn" />
+
+    <TextView
+        android:id="@+id/tvWin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#607D8B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTurn"
+        tools:text="Winner" />
+
+    <ImageView
+        android:id="@+id/btnOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/light_yellow"
+        android:contentDescription="@string/quit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_return" />
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/frame"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvWin"
+        android:alignmentMode="alignBounds">
+
+        <ImageView
+            android:id="@+id/boardLoc0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r0c0"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r0c1"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r0c2"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r1c0"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r1c1"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r1c2"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r2c0"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r2c1"
+            app:srcCompat="@drawable/ic_blank" />
+
+        <ImageView
+            android:id="@+id/boardLoc8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:contentDescription="@string/r2c2"
+            app:srcCompat="@drawable/ic_blank" />
+    </GridLayout>
+
+    <ImageView
+        android:id="@+id/imX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/x"
+        app:layout_constraintEnd_toStartOf="@+id/ivTimerLogo"
+        app:layout_constraintTop_toBottomOf="@+id/ivTimerLogo"
+        app:srcCompat="@drawable/ic_x"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/ivTimerLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:srcCompat="@drawable/ic_timer" />
+
+    <TextView
+        android:id="@+id/imTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/timer"
+        android:textColor="#607D8B"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTimerLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivTimerLogo"
+        app:layout_constraintTop_toTopOf="@+id/ivTimerLogo" />
+
+    <ImageView
+        android:id="@+id/imO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/o"
+        app:layout_constraintBottom_toBottomOf="@+id/imX"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.573"
+        app:layout_constraintStart_toEndOf="@+id/imX"
+        app:layout_constraintTop_toTopOf="@+id/imX"
+        app:srcCompat="@drawable/ic_o"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/light_yellow"
+        android:contentDescription="@string/start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_play" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,65 +21,74 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
-    EditText mEmail, mPassword;
-    Button mLoginButton;
-    TextView mBtnRegister;
-    FirebaseAuth mAuth;
-    ProgressBar mProgressBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mEmail=findViewById(R.id.editTextEmail);
-        mPassword=findViewById(R.id.editTextPassword);
-        mLoginButton=findViewById(R.id.btnLogin);
-        mBtnRegister=findViewById(R.id.textViewRegister);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        mAuth=FirebaseAuth.getInstance();
-        mProgressBar=findViewById(R.id.progressBar2);
+        //check if already logged in
+        if(mAuth.getCurrentUser()!=null) startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-        mLoginButton.setOnClickListener(view -> {
-            String email = mEmail.getText().toString().trim();
-            String password = mPassword.getText().toString().trim();
+        EditText mEmail=findViewById(R.id.tvEmail);
+        EditText mPassword=findViewById(R.id.tvPass);
 
-            //region verify data
-            //use this to throw error for all erroneous inputs before returning
-            boolean shouldReturn=false;
+        //go to register
+        findViewById(R.id.btnRegister).setOnClickListener(view -> startActivity(new Intent(this, Register.class)));
 
-            if(TextUtils.isEmpty(email)){
-                mEmail.setError("An email is required.");
-                shouldReturn=true;
+        //reset pass
+        findViewById(R.id.tvForget).setOnClickListener(view -> mAuth.sendPasswordResetEmail(mEmail.getText().toString()).addOnCompleteListener(task->{
+            String message;
+            if(task.isSuccessful()){
+                message = "Password reset email sent to "+mEmail.getText().toString()+".";
+            }else{
+                message = "Error, "+ Objects.requireNonNull(task.getException()).getMessage();
             }
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }));
 
-            if(TextUtils.isEmpty(password)){
-                mPassword.setError("A password is required.");
-                shouldReturn=true;
-            }
+        //attempt to login
+         findViewById(R.id.btnLogin).setOnClickListener(view -> {
+                    String email = mEmail.getText().toString().trim();
+                    String password = mPassword.getText().toString().trim();
 
-            if(password.length()<6){
-                mPassword.setError("The password must be at least 6 characters long.");
-                shouldReturn=true;
-            }
+                    //region verify data
+                    //use this to throw error for all erroneous inputs before returning
+                    boolean shouldReturn=false;
 
-            if(shouldReturn) return;
-            //endregion verify data
+                    if(TextUtils.isEmpty(email)){
+                        mEmail.setError("An email is required.");
+                        shouldReturn=true;
+                    }
 
-            mProgressBar.setVisibility(View.VISIBLE);
+                    if(TextUtils.isEmpty(password)){
+                        mPassword.setError("A password is required.");
+                        shouldReturn=true;
+                    }
 
-            //authenticate the user
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                if(task.isSuccessful()){
-                    Toast.makeText(this, "Successfully Logged In.", Toast.LENGTH_SHORT).show();
+                    if(password.length()<6){
+                        mPassword.setError("The password must be at least 6 characters long.");
+                        shouldReturn=true;
+                    }
 
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                }else{
-                    Toast.makeText(this, "Error, "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
+                    if(shouldReturn) return;
+                    //endregion verify data
 
-        mBtnRegister.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), Register.class)));
+                    //authenticate the user
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            Toast.makeText(this, "Successfully Logged In.", Toast.LENGTH_SHORT).show();
+
+                            if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            }else{
+                                Toast.makeText(this, "An unexpected has occurred, please log in.", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(this, "Error, "+ Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
     }
 }

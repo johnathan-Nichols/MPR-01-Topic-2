@@ -1,22 +1,27 @@
 package edu.hanu.tictactoewithfirebase;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
+
+import edu.hanu.tictactoewithfirebase.Dialogs.CreateDialog;
+import edu.hanu.tictactoewithfirebase.Dialogs.CreatePlayDialog;
+import edu.hanu.tictactoewithfirebase.Dialogs.NewGameDialog;
+import edu.hanu.tictactoewithfirebase.database.GameObject;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String ACTIVE_ROOM="ACTIVE_ROOM";
     private static final String TAG = "MainActivity";
 
     @Override
@@ -24,48 +29,52 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.btnLogout).setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getApplicationContext(), Login.class));
-            finish();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        //log out
+        findViewById(R.id.btnExit).setOnClickListener(view->{
+            new AlertDialog.Builder(view.getContext())
+                .setIcon(R.drawable.ic_return)
+                .setTitle("Please confirm")
+                .setMessage("Are you sure that you want to log out?")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    mAuth.signOut();
+                    startActivity(new Intent(this, Login.class));
+                })
+                .setNegativeButton("No", null)
+                .show();
         });
 
-        //region Firebase create/read
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        Toast.makeText(this, "TOASTING", Toast.LENGTH_SHORT).show();
+        String name = "Welcome "+ Objects.requireNonNull(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()).split("@")[0];
+        ((TextView) findViewById(R.id.tvWel)).setText(name);
 
-        Log.d(TAG, "onCreate: created");
-        
-        Button writeButton=findViewById(R.id.writeButton);
-        Button readButton=findViewById(R.id.readButton);
-
-        writeButton.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: write");
-            myRef.setValue("Hello, World!");
+        findViewById(R.id.tvRan).setOnClickListener(view ->{
+            Toast.makeText(this, "Join Random Room not set up yet", Toast.LENGTH_SHORT).show();
+            //TODO: this
         });
-
-        readButton.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: Read");
-            
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-                    String value = dataSnapshot.getValue(String.class);
-                    Log.d(TAG, "Value is: " + value);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });
+        findViewById(R.id.tvCode).setOnClickListener(view ->{
+            CreateDialog createDialog = new CreateDialog();
+            createDialog.show(getSupportFragmentManager(), "GetRoomCode");
         });
-        //endregion Firebase create/read
+        findViewById(R.id.tvBot).setOnClickListener(view -> {
+            CreatePlayDialog createDialog = new CreatePlayDialog();
+            createDialog.show(getSupportFragmentManager(), "GetRoomCode");
+        });
+        findViewById(R.id.tvCreateRoom).setOnClickListener(view -> {
+            //see if we have a room first
+            SharedPreferences sharedPreferences =this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+            String activeRoom = sharedPreferences.getString(ACTIVE_ROOM, null);
+
+            if(activeRoom==null){
+                NewGameDialog createDialog = new NewGameDialog();
+                createDialog.show(getSupportFragmentManager(), "CreateRoom");
+            }else{
+                Intent intent = new Intent(getApplicationContext(), CreateRoom.class);
+
+                intent.putExtra(ACTIVE_ROOM, activeRoom);
+
+                startActivity(intent);
+            }
+        });
     }
-
-
 }

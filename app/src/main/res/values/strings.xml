@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">TicTacToeWithFirebase</string>
+    <string name="game_name">Tic Tac Toe</string>
+    <string name="login">Login</string>
+    <string name="forgot">Forget password?</string>
+    <string name="register">Register</string>
+
+    <string name="mail">Mail</string>
+    <string name="pass">Password</string>
+    <string name="confirm">Confirm Password</string>
+
+    <string name="welcome">Welcome</string>
+    <string name="random">Join Random Room</string>
+    <string name="c"> Join By Code</string>
+    <string name="auto">Play With Bot</string>
+    <string name="create">Create Room</string>
+    <string name="click_to_login">Login</string>
+    <string name="invite_other_players">Invite other players</string>
+    <string name="invite_random_players">Invite random players</string>
+    <string name="back">back</string>
+    <string name="room_id">Room ID</string>
+    <string name="timer">Timer</string>
+    <string name="quit">Quit</string>
+    <string name="start">Start</string>
+    <string name="icon">icon</string>
+    <string name="o">O</string>
+    <string name="x">X</string>
+    <string name="game_board">Game board</string>
+    <string name="log_out">Log Out</string>
+    <string name="join_by_code">Join By Code</string>
+    <string name="cute_picture">Cute Picture</string>
+    <string name="room_code">Room Code</string>
+    <string name="r0c0">r0c0</string>
+    <string name="r0c1">r0c1</string>
+    <string name="r0c2">r0c2</string>
+    <string name="r1c0">r1c0</string>
+    <string name="r1c1">r1c1</string>
+    <string name="r1c2">r1c2</string>
+    <string name="r2c0">r2c0</string>
+    <string name="r2c1">r2c1</string>
+    <string name="r2c2">r2c2</string>
+    <string name="ai_is_x">AI is X?</string>
+    <string name="play_against_ai">Play against AI?</string>
+    <string name="difficulty_level_easy_0_1_2_hard">Difficulty Level: (easy) 0, 1, 2 (hard)</string>
+    <string name="look_for_random_players">Look for random players?</string>
+    <string name="go_first">Go First?</string>
 </resources>
