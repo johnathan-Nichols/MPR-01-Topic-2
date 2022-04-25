@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ import java.util.Random;
 import edu.hanu.tictactoewithfirebase.database.GameObject;
 
 public class PlayGame extends AppCompatActivity {
+    private static final String TAG = "PlayGame";
+
     GameObject mGameObject;
 
     String email=null;
@@ -45,6 +48,7 @@ public class PlayGame extends AppCompatActivity {
 
     //easy mode: pick random number
     private final List<Integer> openLocations = new ArrayList<>();
+    static final List<Integer> staticLocations = new ArrayList<>();
 
     //the numbers that we use to check for victory
     private static final int[][] checkNumbers ={
@@ -74,8 +78,9 @@ public class PlayGame extends AppCompatActivity {
 
         //initialize openLocations
         for (int i = 0; i < 9; i++) {
-            openLocations.add(i);
+            staticLocations.add(i);
         }
+        openLocations.addAll(staticLocations);
 
         for(int i=0;i<boardImages.length;i++){
             boardImages[i] = findViewById(getResources().getIdentifier("boardLoc"+i, "id", getPackageName()));
@@ -101,6 +106,8 @@ public class PlayGame extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             mGameObject = snapshot.getValue(GameObject.class);
+                            openLocations.clear();
+                            openLocations.addAll(staticLocations);
 
                             for(int i = 0; i< Objects.requireNonNull(mGameObject).movesList.size(); i++){
                                 int move =mGameObject.movesList.get(i);
@@ -115,18 +122,6 @@ public class PlayGame extends AppCompatActivity {
                                     turn++;
 
                                     CheckVictory();
-
-                                    if(openLocations.size()==0) {
-                                        gameActive = false;
-                                        new AlertDialog.Builder(getBaseContext())
-                                                .setIcon(R.drawable.ic_return)
-                                                .setTitle("The game is tied.")
-                                                .setMessage("Would you like to return to the home page?")
-                                                .setPositiveButton("Yes", (dialogInterface, i1) -> startActivity(new Intent(getBaseContext(), MainActivity.class)))
-                                                .setNegativeButton("No", null)
-                                                .show();
-                                        return;
-                                    }
                                 }
                             }
 
@@ -159,6 +154,9 @@ public class PlayGame extends AppCompatActivity {
     public void ClickedLocation(int location) {
         //stops player from moving if not their turn and it is AI turn
         if (!gameActive || (usesAI && aiIsX && !isO)) return;
+
+        //verify for online
+        if(mGameObject!=null && (!(isO && mGameObject.playerOEmail.equals(email))) && (!(!isO && mGameObject.playerXEmail.equals(email)))) return;
 
         //place mark
         try {
@@ -193,6 +191,9 @@ public class PlayGame extends AppCompatActivity {
             if (CheckItemVictory(boardMarks[checkNumbers[i][0]], boardMarks[checkNumbers[i][1]],
                     boardMarks[checkNumbers[i][2]])) {
                 gameActive = false;
+
+                getSharedPreferences(getPackageName(), Context.MODE_PRIVATE).edit().remove(MainActivity.ACTIVE_ROOM).apply();
+
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.ic_return)
                         .setTitle("Winner is " + (boardMarks[checkNumbers[i][0]]==1?"X.":"O."))
@@ -202,6 +203,18 @@ public class PlayGame extends AppCompatActivity {
                         .show();
                 return;
             }
+        }
+
+        if(openLocations.size()==0) {
+            gameActive = false;
+            getSharedPreferences(getPackageName(), Context.MODE_PRIVATE).edit().remove(MainActivity.ACTIVE_ROOM).apply();
+            new AlertDialog.Builder(getBaseContext())
+                    .setIcon(R.drawable.ic_return)
+                    .setTitle("The game is tied.")
+                    .setMessage("Would you like to return to the home page?")
+                    .setPositiveButton("Yes", (dialogInterface, i1) -> startActivity(new Intent(getBaseContext(), MainActivity.class)))
+                    .setNegativeButton("No", null)
+                    .show();
         }
     }
 
@@ -577,6 +590,7 @@ public class PlayGame extends AppCompatActivity {
 
         if(openLocations.size()==0) {
             gameActive = false;
+            getSharedPreferences(getPackageName(), Context.MODE_PRIVATE).edit().remove(MainActivity.ACTIVE_ROOM).apply();
             new AlertDialog.Builder(this)
                     .setIcon(R.drawable.ic_return)
                     .setTitle("The game is tied.")

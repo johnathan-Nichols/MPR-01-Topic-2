@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import edu.hanu.tictactoewithfirebase.database.GameObject;
 
 public class CreateRoom extends AppCompatActivity {
@@ -34,9 +36,7 @@ public class CreateRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        findViewById(R.id.btnBack).setOnClickListener(view->{
-            startActivity(new Intent(getBaseContext(), MainActivity.class));
-        });
+        findViewById(R.id.btnBack).setOnClickListener(view-> startActivity(new Intent(getBaseContext(), MainActivity.class)));
 
         myRef = FirebaseDatabase.getInstance("https://mpr01-topic2-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("games");
 
@@ -51,6 +51,7 @@ public class CreateRoom extends AppCompatActivity {
             myRef.child(roomID).child("isSeekingPlayers").setValue(true);
         });
 
+        //invite friend
         findViewById(R.id.tvInvite).setOnClickListener(view->{
             if(roomID==null || roomID.length()<1) return;
 
@@ -149,17 +150,32 @@ public class CreateRoom extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Intent intent = new Intent(getBaseContext(), PlayGame.class);
+                Log.d(TAG, "onChildChanged: "+snapshot);
 
-                Bundle bundle = new Bundle();
+                switch (Objects.requireNonNull(snapshot.getKey())){
+                    case "playerOEmail":
+                        gameObject.playerOEmail=snapshot.getValue(String.class);
+                        break;
+                    case "playerXEmail":
+                        gameObject.playerXEmail=snapshot.getValue(String.class);
+                        break;
+                }
 
-                bundle.putSerializable(MainActivity.GAME_OBJECT, gameObject);
+                assert gameObject.playerXEmail != null;
+                assert gameObject.playerOEmail != null;
+                if(gameObject.playerXEmail.length()>0 && gameObject.playerOEmail.length()>0) {
+                    Intent intent = new Intent(getBaseContext(), PlayGame.class);
 
-                intent.putExtras(bundle);
+                    Bundle bundle = new Bundle();
 
-                startActivity(intent);
+                    bundle.putSerializable(MainActivity.GAME_OBJECT, gameObject);
 
-                myRef.child(roomID).removeEventListener(this);
+                    intent.putExtras(bundle);
+
+                    startActivity(intent);
+
+                    myRef.child(roomID).removeEventListener(this);
+                }
             }
 
             @Override

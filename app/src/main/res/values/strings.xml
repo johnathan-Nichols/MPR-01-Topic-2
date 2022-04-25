@@ -44,4 +44,8 @@
     <string name="difficulty_level_easy_0_1_2_hard">Difficulty Level: (easy) 0, 1, 2 (hard)</string>
     <string name="look_for_random_players">Look for random players?</string>
     <string name="go_first">Go First?</string>
+    <string name="logo">logo</string>
+    <string name="your_email">Your Email</string>
+    <string name="password">Password</string>
+    <string name="or">---------OR---------</string>
 </resources>

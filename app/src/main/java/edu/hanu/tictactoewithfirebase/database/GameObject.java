@@ -15,10 +15,6 @@ import java.util.Objects;
  *
  * Get key on load, do not store with the object?
  *
- * TODO: Save game id in preferences and on app load, try to join room.
- *  remove from preferences if the game !isActive
- *  on create room, if has a saved game that has a null x or o, load that
- *  game instead of creating a new game.
  *
  * */
 public class GameObject implements Serializable {

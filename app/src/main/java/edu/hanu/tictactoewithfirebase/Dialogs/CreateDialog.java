@@ -52,9 +52,10 @@ public class CreateDialog extends AppCompatDialogFragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         GameObject gameObject = snapshot.getValue(GameObject.class);
-                        assert gameObject != null;
+                        if(gameObject==null) Toast.makeText(getContext(), "Room not found.", Toast.LENGTH_SHORT).show();;
 
                         //verify GameObject
+                        assert gameObject != null;
                         if(gameObject.playerXEmail.length()<1){
                             gameObject.playerXEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
                         }

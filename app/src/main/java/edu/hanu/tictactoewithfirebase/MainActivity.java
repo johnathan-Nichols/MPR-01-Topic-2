@@ -19,9 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import edu.hanu.tictactoewithfirebase.Dialogs.CreateDialog;
@@ -43,31 +41,31 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef = FirebaseDatabase.getInstance("https://mpr01-topic2-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("games");
 
         //log out
-        findViewById(R.id.btnExit).setOnClickListener(view->{
-            new AlertDialog.Builder(view.getContext())
-                .setIcon(R.drawable.ic_return)
-                .setTitle("Please confirm")
-                .setMessage("Are you sure that you want to log out?")
-                .setPositiveButton("Yes", (dialogInterface, i) -> {
-                    mAuth.signOut();
-                    startActivity(new Intent(this, Login.class));
-                })
-                .setNegativeButton("No", null)
-                .show();
-        });
+        findViewById(R.id.btnExit).setOnClickListener(view-> new AlertDialog.Builder(view.getContext())
+            .setIcon(R.drawable.ic_return)
+            .setTitle("Please confirm")
+            .setMessage("Are you sure that you want to log out?")
+            .setPositiveButton("Yes", (dialogInterface, i) -> {
+                mAuth.signOut();
+                startActivity(new Intent(this, Login.class));
+            })
+            .setNegativeButton("No", null)
+            .show());
 
         String name = "Welcome "+ Objects.requireNonNull(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()).split("@")[0];
         ((TextView) findViewById(R.id.tvWel)).setText(name);
 
         //join random
         findViewById(R.id.tvRan).setOnClickListener(view ->{
+            final boolean[] hasFoundUser = {false};
+
             //Search for room with isSeekingPlayers
             myRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     GameObject value = snapshot.getValue(GameObject.class);
                     assert value != null;
-                    if(value.isSeekingPlayers){
+                    if(value.isSeekingPlayers && (value.playerXEmail.length()<1 || value.playerOEmail.length()<1)){
                         getSharedPreferences(getPackageName(), Context.MODE_PRIVATE).edit().putString(MainActivity.ACTIVE_ROOM, value.roomId).apply();
 
                         if(value.playerXEmail.length()<1){
@@ -89,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
 
                         myRef.removeEventListener(this);
+
+                        hasFoundUser[0] = true;
                     }
                 }
 
@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+            if(!hasFoundUser[0]) Toast.makeText(this, "Waiting for room.", Toast.LENGTH_SHORT).show();
         });
 
         //join by code
