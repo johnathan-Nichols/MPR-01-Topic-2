@@ -42,6 +42,8 @@
 
 
     <EditText
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -49,6 +51,8 @@
         android:background="@drawable/text_bg"
         android:backgroundTint="#C4C4C4"
         android:drawableStart="@drawable/ic_user"
+        android:drawablePadding="10dp"
+        android:paddingLeft="15dp"
         android:hint="@string/your_email"
         android:importantForAutofill="no"
         android:inputType="textEmailAddress"
@@ -60,6 +64,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tvGame" />
 
     <EditText
+        android:paddingLeft="15dp"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:id="@+id/tvPass"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -82,7 +90,7 @@
         android:layout_marginTop="46dp"
         android:backgroundTint="@color/light_green"
         android:text="@string/login"
-        android:textColor="#5D4037"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPass" />
@@ -117,7 +125,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_blue"
         android:text="@string/register"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOr"

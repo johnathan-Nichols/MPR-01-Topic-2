@@ -25,6 +25,7 @@ import java.util.Objects;
 import edu.hanu.tictactoewithfirebase.Dialogs.CreateDialog;
 import edu.hanu.tictactoewithfirebase.Dialogs.CreatePlayDialog;
 import edu.hanu.tictactoewithfirebase.Dialogs.NewGameDialog;
+import edu.hanu.tictactoewithfirebase.R;
 import edu.hanu.tictactoewithfirebase.database.GameObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         //log out
         findViewById(R.id.btnExit).setOnClickListener(view-> new AlertDialog.Builder(view.getContext())
-            .setIcon(R.drawable.ic_return)
-            .setTitle("Please confirm")
-            .setMessage("Are you sure that you want to log out?")
-            .setPositiveButton("Yes", (dialogInterface, i) -> {
-                mAuth.signOut();
-                startActivity(new Intent(this, Login.class));
-            })
-            .setNegativeButton("No", null)
-            .show());
+                .setIcon(R.drawable.ic_return)
+                .setTitle("Please confirm")
+                .setMessage("Are you sure that you want to log out?")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    mAuth.signOut();
+                    startActivity(new Intent(this, Login.class));
+                })
+                .setNegativeButton("No", null)
+                .show());
 
         String name = "Welcome "+ Objects.requireNonNull(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()).split("@")[0];
         ((TextView) findViewById(R.id.tvWel)).setText(name);

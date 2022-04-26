@@ -9,13 +9,16 @@
     android:background="@color/light_pink">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:theme="@style/TextLabel"
         android:id="@+id/txtInputLayoutCreateUsername"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="351dp"
+        android:layout_width="match_parent"
         android:layout_height="87dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:hint="@string/mail"
         app:counterEnabled="true"
         app:counterMaxLength="50"
@@ -39,7 +42,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtInputLayoutCreatePassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="349dp"
+        android:layout_width="match_parent"
         android:layout_height="87dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="235dp"
@@ -50,6 +53,8 @@
         app:counterTextColor="@color/gray"
         app:counterMaxLength="20"
         app:endIconMode="password_toggle"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +62,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/txtInputEditTextCreatePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +75,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtInputLayoutConfirmPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="349dp"
+        android:layout_width="match_parent"
         android:layout_height="87dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="325dp"
@@ -83,9 +89,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
+
             android:id="@+id/txtInputEditTextConfirmPassword"
             android:background="@color/gray"
             android:inputType="textPassword"
@@ -96,22 +105,28 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="348dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/light_blue"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:text="@string/register"
-        android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+
         app:layout_constraintTop_toBottomOf="@+id/txtInputLayoutConfirmPassword"
         tools:ignore="TextContrastCheck,TextContrastCheck" />
 
     <ImageButton
+        android:padding="10dp"
         android:id="@+id/imgbtnBackToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@null"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:contentDescription="@string/click_to_login"

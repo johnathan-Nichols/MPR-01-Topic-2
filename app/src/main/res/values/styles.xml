@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextLabel" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">#4E4E4D</item>
+        <item name="android:textSize">20sp</item>
+        <item name="colorControlNormal">#DCDC5E</item>
+        <item name="colorControlActivated">#4E4E4D</item>
+    </style>
+
+</resources>
