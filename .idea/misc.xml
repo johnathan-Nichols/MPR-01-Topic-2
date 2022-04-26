@@ -3,7 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/drawable/ic_back.xml" value="0.1305" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/drawable/ic_password.xml" value="0.17" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/drawable/ic_user.xml" value="0.178" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/activity_create.xml" value="0.1" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/layout_dialog.xml" value="0.1" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/layout_dialog_play_ai.xml" value="0.152" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/new_game_dialog.xml" value="0.2" />
+        <entry key="..\:/ME/2022/Android/MPR-01-Topic-2/app/src/main/res/layout/play_screen.xml" value="0.1609375" />
         <entry key="..\:/Users/Public/Documents/TicTacToeWithFirebase/app/src/main/res/layout/activity_login.xml" value="0.371875" />
         <entry key="..\:/Users/Public/Documents/TicTacToeWithFirebase/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Public/Documents/TicTacToeWithFirebase/app/src/main/res/layout/activity_register.xml" value="0.22" />

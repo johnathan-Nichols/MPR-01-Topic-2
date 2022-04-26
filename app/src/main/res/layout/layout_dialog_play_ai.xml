@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_usesAI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="265dp"
+        android:checked="true"
+        android:minHeight="32dp"
+        android:text="@string/play_against_ai"/>
+
+    <EditText
+        android:id="@+id/start_game_diff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/difficulty_level_easy_0_1_2_hard"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColorHint="#757575" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_AIGoesFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/ai_is_x"
+        tools:ignore="TextContrastCheck" />
+
+</LinearLayout>
